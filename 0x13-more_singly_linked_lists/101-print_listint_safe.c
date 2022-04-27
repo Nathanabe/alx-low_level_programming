@@ -1,32 +1,28 @@
 #include "lists.h"
 
 /**
- * free_listint_safe - mas listas enlazadas
- * @h: Doble puntero asignado
+ * print_listint_safe - Listas enlazadas
+ * @head: Dado desde main
+ *
  * Return: i
  */
-size_t free_listint_safe(listint_t **h)
+size_t print_listint_safe(const listint_t *head)
 {
-	listint_t *temp;
 	size_t i = 0;
+	const listint_t *temp, *node;
 
-	temp = *h;
-	if (h == NULL)
-		return (i);
-	while (temp)
+	node = head;
+	while (node != NULL)
 	{
-		if (temp <= temp->next)
+		printf("[%p] %d\n", (void *)node, node->n);
+		temp = node;
+		node = node->next;
+		i++;
+		if (temp <= node)
 		{
-			free(temp);
-			i++;
+			printf("-> [%p] %d\n", (void *)node, node->n);
 			break;
 		}
-
-		*h = temp->next;
-		free(temp);
-		temp = *h;
-		i++;
 	}
-	*h = NULL;
 	return (i);
 }
