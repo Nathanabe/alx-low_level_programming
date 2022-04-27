@@ -1,29 +1,32 @@
 #include "lists.h"
 
 /**
- * find_listint_loop - Funcion dada
- * @head: Desde main
- *
- * Return: slow_p
+ * free_listint_safe - mas listas enlazadas
+ * @h: Doble puntero asignado
+ * Return: i
  */
-listint_t *find_listint_loop(listint_t *head)
+size_t free_listint_safe(listint_t **h)
 {
-	listint_t *slow_p = head, *fast_p = head;
+	listint_t *temp;
+	size_t i = 0;
 
-	while (slow_p && fast_p && fast_p->next)
+	temp = *h;
+	if (h == NULL)
+		return (i);
+	while (temp)
 	{
-		slow_p = slow_p->next;
-		fast_p = fast_p->next->next;
-		if (slow_p == fast_p)
+		if (temp <= temp->next)
 		{
-			slow_p = head;
-			while (slow_p != fast_p)
-			{
-				slow_p = slow_p->next;
-				fast_p = fast_p->next;
-			}
-			return (slow_p);
+			free(temp);
+			i++;
+			break;
 		}
+
+		*h = temp->next;
+		free(temp);
+		temp = *h;
+		i++;
 	}
-	return (NULL);
+	*h = NULL;
+	return (i);
 }
